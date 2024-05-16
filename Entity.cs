@@ -2,9 +2,9 @@ namespace OOP_Prov
 {
     public class Entity
     {
-        public int hp;
-        public string name;
-        public int damage;
+        private int hp;
+        private string name;
+        private int damage;
 
         public int Hp
         {
@@ -24,24 +24,26 @@ namespace OOP_Prov
             set{damage = value;}
         }
 
+        
+
         public Entity(int hp, string name, int damage)
         {
-            this.Hp = hp;
-            this.Name = name;
-            this.Damage = damage;
+            Hp = hp;
+            Name = name;
+            Damage = damage;
         }
 
         public bool Attack()
         {
-            Console.WriteLine(name + " attacks!\n");
+            TG.Normal(name + " attacks!\n");
             return true;
-            
         }
 
         public void TakeDamage(int amount)
         {
             hp -= amount;
-            Console.WriteLine($"{name} HP: {hp}\n");
+            hp = (int)MathF.Max(hp, 0);
+            TG.Normal($"{name} HP: {hp}\n");
         }
 
     }

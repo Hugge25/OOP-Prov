@@ -1,17 +1,19 @@
 using System;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace OOP_Prov
 {
     public class Game
     {
-        public static void Meny() //Ville namn ge den Meny, men går inte eftersom då skapas en konstruktor.
+        public void Meny() //Ville namn ge den Meny, men går inte eftersom då skapas en konstruktor.
         {
-            Console.WriteLine("- PLAY, P -");
+            Console.WriteLine("   - PLAY, P -");
             Console.WriteLine("- LEADERBOARD, L -");
-            Console.WriteLine("- QUIT, Q -");
+            Console.WriteLine("   - QUIT, Q -");
 
             var input = Console.ReadKey();
+            Console.Clear();
             
             switch(input.Key)
             {
@@ -20,7 +22,12 @@ namespace OOP_Prov
                     break;
 
                 case ConsoleKey.L:
-                
+                    StreamReader sr = new StreamReader("Score.txt");
+                    
+                    Console.WriteLine(sr.ReadToEnd());
+
+                    sr.Close();
+                    Meny();
                     break;
                 
                 case ConsoleKey.Q:
@@ -28,34 +35,35 @@ namespace OOP_Prov
 
                 default:
                     Console.WriteLine("Write a single key.");
-                    Game.Meny();
+                    Meny();
                     break;
             }
         }
 
-        public static void Play()
+        public void Play()
         {
             Player player = new Player();
             Wizard wizard = new Wizard();
             Goblin goblin = new Goblin();
+
+            bool PlayerWon;
 
             Random rnd = new Random();
             
             while(true)
             {
                 int turn = rnd.Next(1, 7); //Bestämmer vems tur det är att anfalla
-                Console.WriteLine(turn);
 
                 if(turn == 1 || turn == 2 || turn == 3 || turn == 4) //De olika fallen då player attackerar
                 {
                     player.Attack();
                     if(wizard.Hp < goblin.Hp)
                     {
-                        goblin.TakeDamage(player.damage);
+                        goblin.TakeDamage(player.Damage);
                     }
                     else
                     {
-                        wizard.TakeDamage(player.damage);
+                        wizard.TakeDamage(player.Damage);
                     }
                 }
                 else if(turn == 5) //Goblin attackerar
@@ -69,24 +77,57 @@ namespace OOP_Prov
                     player.TakeDamage(wizard.Damage);
                 }
 
-                if(player.hp <= 0)
+                if(player.Hp <= 0)
                 {
                     break;
                 }
-                else if(goblin.hp <= 0 && wizard.hp <= 0)
+                else if(goblin.Hp <= 0 && wizard.Hp <= 0)
                 {
                     break;
                 }
-            }   
 
-            if(player.hp <= 0) //Gör en min max
+                Thread.Sleep(500);
+            }   
+            if(player.Hp <= 0)
             {
-                Console.WriteLine("Du förlorade");
+                TG.Slow("Du förlorade");
+                PlayerWon = false;
+                
             }
             else
             {
-                Console.WriteLine("Du vann!");
-            }      
+                TG.Slow("Du vann!");
+                PlayerWon = true;
+            }
+
+            
+
+            string info = "";
+
+            if(PlayerWon){
+                info = "Vann";
+            }
+            else if(!PlayerWon)
+            {
+                info = "Förlorade";
+            }
+
+            var lineCount = 0;
+            using (var reader = File.OpenText("Score.txt"))
+            {
+                while (reader.ReadLine() != null)
+                {
+                    lineCount++;
+                }
+            }   
+
+            StreamWriter sw = new StreamWriter("Score.txt", true);
+
+            sw.WriteLine($"{player.Name}: {player.Hp}, {info}");
+
+            sw.Close();
+
+            Meny();      
         }
     }
 }

@@ -4,7 +4,8 @@ class Program
 {
     static void Main(string[] args)
     {
-        Game.Meny();
+        Game game = new Game();
+        game.Meny();
     }
 }
 
