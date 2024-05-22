@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.Json;
 
 namespace OOP_Prov
 {
@@ -24,8 +25,10 @@ namespace OOP_Prov
                 case ConsoleKey.L:
                     StreamReader sr = new StreamReader("Score.txt");
                     
-                    Console.WriteLine(sr.ReadToEnd());
-
+                    Console.WriteLine(sr.ReadLine());
+                    Console.WriteLine(sr.ReadLine());
+                    Console.WriteLine(sr.ReadLine());
+                    
                     sr.Close();
                     Meny();
                     break;
@@ -112,22 +115,24 @@ namespace OOP_Prov
                 info = "Förlorade";
             }
 
-            var lineCount = 0;
-            using (var reader = File.OpenText("Score.txt"))
+            //Console.WriteLine(lastScore);
+
+            string[] place = new string [3];
+
+            //for(int i = 0;)
+            //{
+
+            //}
+
+            //if(player.Hp > lastScore)
             {
-                while (reader.ReadLine() != null)
-                {
-                    lineCount++;
-                }
-            }   
+                
+                place[1] = place[0];
+            }
 
-            StreamWriter sw = new StreamWriter("Score.txt", true);
-
-            sw.WriteLine($"{player.Name}: {player.Hp}, {info}");
-
-            sw.Close();
 
             Meny();      
         }
+
     }
 }

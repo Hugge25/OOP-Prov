@@ -1,1 +1,4 @@
-Player: 0, Förlorade
+{player.Name}: {player.Hp}, {info}
+2. Player: 20, Vann
+3. Player: 20, Vann
+player.Hp
