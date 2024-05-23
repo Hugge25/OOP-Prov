@@ -33,10 +33,9 @@ namespace OOP_Prov
             Damage = damage;
         }
 
-        public bool Attack()
+        public void Attack()
         {
             TG.Normal(name + " attacks!\n");
-            return true;
         }
 
         public void TakeDamage(int amount)

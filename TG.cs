@@ -7,7 +7,7 @@ namespace OOP_Prov
             foreach(char c in text)
             {
                 Console.Write(c);
-                Thread.Sleep(0); //50
+                Thread.Sleep(20);
             }
             Console.WriteLine();
         }
@@ -17,7 +17,7 @@ namespace OOP_Prov
             foreach(char c in text)
             {
                 Console.Write(c);
-                Thread.Sleep(0); //200
+                Thread.Sleep(200);
             }
             Console.WriteLine();
         }
